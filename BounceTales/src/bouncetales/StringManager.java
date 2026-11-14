@@ -18,7 +18,7 @@ public final class StringManager {
 		boolean matchedPlatform = false;
 		String platformProperty = System.getProperty("microedition.platform");
 		StringBuffer sb = new StringBuffer();
-		InputStream manifestStrm = StringManager.class.getResourceAsStream("/META-INF/MANIFEST.MF");
+		InputStream manifestStrm = mInstance.getClass().getResourceAsStream("/META-INF/MANIFEST.MF");
 		if (manifestStrm != null) {
 			while (true) {
 				try {
