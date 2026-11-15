@@ -1,0 +1,29 @@
+{
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/CVS": true
+  },
+  "search.exclude": {},
+  "cSpell.words": [],
+  "java.format.enabled": false,
+  "java.server.launchMode": "Standard",
+  "java.project.sourcePaths": ["BounceTales/src"],
+  "java.project.outputPath": "BounceTales/bin",
+  "java.project.referencedLibraries": [
+    "BounceTales/lib/s40/midp20.jar",
+    "BounceTales/lib/s40/nokiaui.jar"
+  ],
+  "java.import.exclusions": [
+    "**/node_modules/**",
+    "**/.metadata/**",
+    "**/archetype-resources/**",
+    "**/META-INF/maven/**",
+    "BounceTools/**",
+    "BounceWin32/**",
+    "Jademula/**"
+  ]
+}

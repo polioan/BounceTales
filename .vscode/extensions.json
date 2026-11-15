@@ -1,0 +1,4 @@
+{
+  "recommendations": ["editorconfig.editorconfig", "vscjava.vscode-java-pack"],
+  "unwantedRecommendations": []
+}

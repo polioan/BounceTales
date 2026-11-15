@@ -2,3 +2,6 @@ build/
 dist/
 res_unobf/
 res/*
+bin/
+lib/
+sdk/
