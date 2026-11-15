@@ -14,6 +14,7 @@
   "java.project.sourcePaths": ["BounceTales/src"],
   "java.project.outputPath": "BounceTales/bin",
   "java.project.referencedLibraries": [
+    "BounceTales/lib/s40/cldc11-javax.jar",
     "BounceTales/lib/s40/midp20.jar",
     "BounceTales/lib/s40/nokiaui.jar"
   ],

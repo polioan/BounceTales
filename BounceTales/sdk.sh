@@ -113,6 +113,32 @@ require_jar_bytes() {
   fi
 }
 
+build_cldc_javax() {
+  local src_jar="$1"
+  local dest_jar="$2"
+  local tmp
+  tmp="$(mktemp -d)"
+  if have unzip; then
+    unzip -q "$src_jar" "javax/microedition/io/*.class" -d "$tmp"
+  elif use_bsdtar; then
+    tar -xf "$src_jar" -C "$tmp" javax/microedition/io
+  else
+    rm -rf "$tmp"
+    fail "Need unzip or bsdtar to build cldc11-javax.jar"
+  fi
+  rm -f "$tmp/javax/microedition/io/Connector.class"
+  if [[ ! -f "$tmp/javax/microedition/io/ConnectionNotFoundException.class" ]]; then
+    rm -rf "$tmp"
+    fail "cldc11.jar has no javax.microedition.io.ConnectionNotFoundException"
+  fi
+  if ! have jar; then
+    rm -rf "$tmp"
+    fail "jar is required to build cldc11-javax.jar"
+  fi
+  (cd "$tmp" && jar cf "$dest_jar" javax)
+  rm -rf "$tmp"
+}
+
 if ! have curl; then
   fail "curl is required"
 fi
@@ -228,5 +254,19 @@ if require_jar_bytes "$LIBDIR/midp20.jar" "java/lang/Object.class"; then
   fail "midp20.jar contains java.lang.Object and cannot be used as a referenced library"
 fi
 
+cldc_src="$(find "$UNSHIELD_DIR" -type f -name "cldc11.jar" -print -quit)"
+if [[ -z "$cldc_src" ]]; then
+  fail "unshield did not produce cldc11.jar"
+fi
+build_cldc_javax "$cldc_src" "$LIBDIR/cldc11-javax.jar"
+require_jar_bytes "$LIBDIR/cldc11-javax.jar" "javax/microedition/io/ConnectionNotFoundException.class"
+if require_jar_bytes "$LIBDIR/cldc11-javax.jar" "java/lang/Object.class"; then
+  fail "cldc11-javax.jar contains java.lang.Object and cannot be used as a referenced library"
+fi
+if require_jar_bytes "$LIBDIR/cldc11-javax.jar" "javax/microedition/io/Connector.class"; then
+  fail "cldc11-javax.jar contains Connector, which is already in midp20.jar"
+fi
+
 echo "OK: $LIBDIR/midp20.jar"
 echo "OK: $LIBDIR/nokiaui.jar"
+echo "OK: $LIBDIR/cldc11-javax.jar"
